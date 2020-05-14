@@ -370,11 +370,16 @@ class Map extends Component{
 					      <h3 className="card-title">{this.state.currentLocation}</h3>
 					      	  {this.state.locationToCharityMap[this.state.currentLocation].map ((charity) => 
 							      <div>
-								      <p className="card-text"><b>{charity.fields.Organization}</b></p>
-								      <p className="card-text">Serves: {charity.fields.What.toString() }</p>
-								      <p className="card-text">Capacity: {charity.fields["How many"] }</p>
-								      <p className="card-text">Contact Name: {charity.fields["Contact name"] }</p>
-								      <p className="card-text">Email: {charity.fields.Email }</p>
+								      <h5 className="card-text"><b>Name : {charity.fields.Organization}</b></h5>
+								      <p className="card-text"><b>Where</b>: {charity.fields.Where.toString() }</p>
+								      <p className="card-text"><b>What</b>: {charity.fields.What.toString() }</p>
+								      <p className="card-text"><b>Package</b>: {charity.fields.Package }</p>
+								      <p className="card-text"><b>Deliveries per week</b>: {charity.fields["How many"] }</p>
+								      <p className="card-text"><b>Fundraising</b>: {charity.fields.Fundraising.toString() }</p>
+								      <p className="card-text"><b>Contact Name</b>: {charity.fields["Contact name"] }</p>
+								      <p className="card-text"><b>Email</b>: {charity.fields.Email }</p>
+								      <p className="card-text"><b>FB</b>: <a href={charity.fields.FB} target="_blank">{charity.fields.FB}</a></p>
+								      <p className="card-text"><b>WWW</b>: <a href={charity.fields.WWW} target="_blank">{charity.fields.WWW }</a></p>
 								      <p className="card-text"></p>
 							      </div>
 						      )}
