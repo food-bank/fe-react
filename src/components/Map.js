@@ -26,7 +26,7 @@ class Map extends Component{
       		locationToCharityMap: [],
       		locations: [],
       		locationToAddressMap: [],
-      		placeId: '',
+      		currentLocation: '',
       		dataReady: ''
 		}
 	}
@@ -80,9 +80,9 @@ class Map extends Component{
 		locationToAddressMap: locationToAddressMap });
 	  }
 
-	showCharities = ( placeId ) => {
+	showCharities = ( location ) => {
 		// console.log(placeId);
-		this.setState({placeId:placeId});
+		this.setState({currentLocation:location});
 	};
 
 	/**
@@ -142,6 +142,7 @@ class Map extends Component{
 		} else if ( this.props.center.lat === nextProps.center.lat ){
 			return false
 		}
+		return false;
 	}
 	/**
 	 * Get the city and set the city input value to the one selected
@@ -292,31 +293,11 @@ class Map extends Component{
 					>
 						{Object.entries(this.state.locationToAddressMap).map((entry) => 
 									<div>
-										<div className ={entry[1][0].place_id}>
-											{(this.state.placeId == entry[1][0].place_id) && 
-												<InfoWindow
-												onClose={this.onInfoWindowClose}
-												position={{ lat: ( entry[1][0].geometry.location.lat + 0.0018 ), lng: entry[1][0].geometry.location.lng }}
-											>
-												<div>
-														{this.state.locationToCharityMap[entry[0]].map((charity) =>
-															<div>
-															<div style={{ padding: 0, margin: 0}}><b>{charity.fields.Organization }</b></div>
-															<div style={{ padding: 0, margin: 0}}>Serves: {charity.fields.What.toString() }</div>
-															<div style={{ padding: 0, margin: 0}}>Capacity: {charity.fields["How many"] }</div>
-															<div style={{ padding: 0, margin: 0}}>Contact Name: {charity.fields["Contact name"] }</div>
-															<div style={{ padding: 0, margin: 0}}>Email: {charity.fields.Email }</div>
-															<br/>
-															</	div>
-														)}
-												</div>
-											</InfoWindow>}
-										</div>
 										<Marker google={this.props.google}
-										        label={entry[0]}
+										        label={this.state.locationToCharityMap[entry[0]].length+""}
 										        draggable={true}
 										        onDragEnd={ this.onMarkerDragEnd }
-										        onClick={() => {this.showCharities(entry[1][0].place_id)}}
+										        onClick={() => {this.showCharities(entry[0])}}
 										        position={{ lat: entry[1][0].geometry.location.lat, lng: entry[1][0].geometry.location.lng }}
 										/>
 									</div>
@@ -328,7 +309,8 @@ class Map extends Component{
 								height: '40px',
 								paddingLeft: '16px',
 								marginTop: '2px',
-								marginBottom: '500px'
+								marginBottom: '500px',
+								display:"none"
 							}}
 							onPlaceSelected={ this.onPlaceSelected }
 							types={['(regions)']}
@@ -377,9 +359,29 @@ class Map extends Component{
 		}
 
 		return( 
-			<div>
-				<h2>Charities List</h2>
-				{map} 
+			<div className="">
+				<div className="row">
+				<div className="col col-lg-6">
+					{map} 
+				</div>
+				<div className="col col-lg-6">
+					{this.state.currentLocation && <div className="card">
+					    <div className="card-body">
+					      <h3 className="card-title">{this.state.currentLocation}</h3>
+					      	  {this.state.locationToCharityMap[this.state.currentLocation].map ((charity) => 
+							      <div>
+								      <p className="card-text"><b>{charity.fields.Organization}</b></p>
+								      <p className="card-text">Serves: {charity.fields.What.toString() }</p>
+								      <p className="card-text">Capacity: {charity.fields["How many"] }</p>
+								      <p className="card-text">Contact Name: {charity.fields["Contact name"] }</p>
+								      <p className="card-text">Email: {charity.fields.Email }</p>
+								      <p className="card-text"></p>
+							      </div>
+						      )}
+					    </div>
+					  </div> }
+					</div>
+				 </div>
 			</div>
 			)
 	}
