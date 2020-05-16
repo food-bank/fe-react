@@ -1,5 +1,4 @@
 .App {
-  text-align: center;
 }
 
 .App-logo {
@@ -29,5 +28,30 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+.map-div {
+  padding: 0;
+}
+
+.charities {
+  height:100vh;
+  overflow-y: scroll;
+  z-index:0;
+}
+
+.containerMap{
+  height:100vh;
+}
+
+
+@media screen and (max-width: 768px){
+  .iner-menu{
+    display:block !important;
+    justify-content: flex-end;
+  }
+  .containerMap{
+    height:80vh;
   }
 }
