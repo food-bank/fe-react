@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps";
 import Geocode from "react-geocode";
 import Autocomplete from 'react-google-autocomplete';
+import '../App.css';
+import CharityCard from './CharityCard';
 Geocode.setApiKey( process.env.REACT_APP_API_KEY );
 Geocode.enableDebug();
 
@@ -136,7 +138,8 @@ class Map extends Component{
 			this.state.area !== nextState.area ||
 			this.state.state !== nextState.state ||
 			this.state.locations !== nextState.state.locations ||
-			this.state.locationToAddressMap !== nextState.state.locationToAddressMap
+			this.state.locationToAddressMap !== nextState.state.locationToAddressMap ||
+			this.state.locationToCharityMap !== nextState.state.locationToCharityMap 
 		) {
 			return true
 		} else if ( this.props.center.lat === nextProps.center.lat ){
@@ -289,7 +292,7 @@ class Map extends Component{
 				props => (
 					<GoogleMap google={ this.props.google }
 					           defaultZoom={ this.props.zoom }
-					           defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
+					           defaultCenter={{ lat: -8.2238968, lng: 114.9516869 }}
 					>
 						{Object.entries(this.state.locationToAddressMap).map((entry) => 
 									<div>
@@ -320,7 +323,6 @@ class Map extends Component{
 			)
 		);
 		let map;
-		if( this.props.center.lat !== undefined ) {
 			map = <div>
 				{/*<div>
 					<div className="form-group">
@@ -347,43 +349,39 @@ class Map extends Component{
 						<div style={{ height: `100%` }} />
 					}
 					containerElement={
-						<div style={{ height: this.props.height }} />
+						<div className="containerMap"/>
 					}
 					mapElement={
 						<div style={{ height: `100%` }} />
 					}
 				/>
 			</div>
-		} else {
-			map = <div style={{height: this.props.height}} />
-		}
 
 		return( 
 			<div className="">
 				<div className="row">
-				<div className="col col-lg-6">
+				<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 map-div">
 					{map} 
 				</div>
-				<div className="col col-lg-6">
+				<div className="col-lg-6  col-md-6  col-sm-12 col-xs-12 map-div charities">
 					{this.state.currentLocation && <div className="card">
 					    <div className="card-body">
-					      <h3 className="card-title">{this.state.currentLocation}</h3>
+					      <h1 className="card-title">{this.state.currentLocation}</h1>
 					      	  {this.state.locationToCharityMap[this.state.currentLocation].map ((charity) => 
-							      <div>
-								      <h5 className="card-text"><b>Name : {charity.fields.Organization}</b></h5>
-								      <p className="card-text"><b>Where</b>: {charity.fields.Where.toString() }</p>
-								      <p className="card-text"><b>What</b>: {charity.fields.What.toString() }</p>
-								      <p className="card-text"><b>Package</b>: {charity.fields.Package }</p>
-								      <p className="card-text"><b>Deliveries per week</b>: {charity.fields["How many"] }</p>
-								      <p className="card-text"><b>Fundraising</b>: {charity.fields.Fundraising.toString() }</p>
-								      <p className="card-text"><b>Contact Name</b>: {charity.fields["Contact name"] }</p>
-								      <p className="card-text"><b>Email</b>: {charity.fields.Email }</p>
-								      <p className="card-text"><b>FB</b>: <a href={charity.fields.FB} target="_blank">{charity.fields.FB}</a></p>
-								      <p className="card-text"><b>WWW</b>: <a href={charity.fields.WWW} target="_blank">{charity.fields.WWW }</a></p>
-								      <p className="card-text"></p>
-							      </div>
+							      <CharityCard charity={charity}/>
 						      )}
 					    </div>
+					  </div> }
+
+					  {!this.state.currentLocation && <div className="card">
+					    <div className="card-body">
+					    	<div>
+					      		<h1 className="card-title">Bali</h1>
+						      	  	{this.state.charities.map ((charity) => 
+								      <CharityCard charity={charity}/>
+							      	)}
+				    		</div>
+					  </div>
 					  </div> }
 					</div>
 				 </div>
