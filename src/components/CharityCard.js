@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 class CharityCard extends Component {
 
+shouldComponentUpdate( nextProps, nextState ){
+	return true;
+}
 	render() {
 		var charity = this.props.charity;
 		return(

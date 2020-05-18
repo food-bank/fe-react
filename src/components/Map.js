@@ -3,7 +3,6 @@ import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "reac
 import Geocode from "react-geocode";
 import Autocomplete from 'react-google-autocomplete';
 import '../App.css';
-import CharityCard from './CharityCard';
 Geocode.setApiKey( process.env.REACT_APP_API_KEY );
 Geocode.enableDebug();
 
@@ -11,118 +10,15 @@ class Map extends Component{
 
 	constructor( props ){
 		super( props );
-		this.state = {
-			address: '',
-			city: '',
-			area: '',
-			state: '',
-			mapPosition: {
-				lat: this.props.center.lat,
-				lng: this.props.center.lng
-			},
-			markerPosition: {
-				lat: this.props.center.lat,
-				lng: this.props.center.lng
-			},
-			charities: [],
-      		locationToCharityMap: [],
-      		locations: [],
-      		locationToAddressMap: [],
-      		currentLocation: '',
-      		dataReady: ''
-		}
 	}
 
-	populateLocationToCharityMap(records) {
-	  	console.log(records);
-	  	var map = {};
-	  	var locationToAddressMap = {};
-	  	var locations = [];
-	  	for (var i in records) {
-	  		for (var j in records[i].fields.Where) {
-	  			var loc = records[i].fields.Where[j];
-	  			if(map[loc] != null)
-	  				map[loc].push(records[i]);
-	  			else {
-	  				map[loc] = [];
-	  				map[loc].push(records[i]);
-	  				locations.push(loc);
-	  			}
-
-	  			
-	  		}
-		}
-		document.map=map;
-		var that = this;
-		var idx = 0;
-		locations.forEach(function(location) {
-			Geocode.fromAddress(location).then(
-				  response => {
-				    // const { lat, lng } = response.results[0].geometry.location;
-				    if(locationToAddressMap[location] != null)
-	  					locationToAddressMap[location].push(response.results[0]);
-		  			else {
-		  				locationToAddressMap[location] = [];
-		  				locationToAddressMap[location].push(response.results[0]);
-		  			}
-		  			idx++;
-		  			that.setState({locationToAddressMap:locationToAddressMap})
-		  			if(idx == locations.length) {
-		  				that.setState({dataReady: true})
-		  			}
-				  },
-				  error => {
-				    console.error(error);
-				  }
-				);
-		});
-		document.map2= locationToAddressMap;
-		this.setState({ locationToCharityMap: map,
-		locations: locations,
-		locationToAddressMap: locationToAddressMap });
-	  }
+	
 
 	showCharities = ( location ) => {
 		// console.log(placeId);
-		this.setState({currentLocation:location});
+		this.props.showCharities(location);
 	};
 
-	/**
-	 * Get the current address from the default map position and set those values in the state
-	 */
-	componentDidMount() {
-		fetch('https://api.airtable.com/v0/appmSc1rY8HQoPQ5T/Organizations?api_key=keywaneNmq2i4Qwtq')
-		    .then((resp) => resp.json())
-		    .then(data => {
-		      console.log(data);
-		      this.setState({ charities: data.records });
-		      this.populateLocationToCharityMap(data.records);
-		    }).catch(err => {
-		      // Error
-		    });
-
-		Geocode.fromLatLng( this.state.mapPosition.lat , this.state.mapPosition.lng ).then(
-			response => {
-				const address = response.results[0].formatted_address,
-				      addressArray =  response.results[0].address_components,
-				      city = this.getCity( addressArray ),
-				      area = this.getArea( addressArray ),
-				      state = this.getState( addressArray );
-
-				console.log( 'city', city, area, state );
-
-				this.setState( {
-					address: ( address ) ? address : '',
-					area: ( area ) ? area : '',
-					city: ( city ) ? city : '',
-					state: ( state ) ? state : '',
-				} )
-			},
-			error => {
-				console.error( error );
-			}
-		);
-	};
 	/**
 	 * Component should only update ( meaning re-render ), when the user selects the address, or drags the pin
 	 *
@@ -131,21 +27,10 @@ class Map extends Component{
 	 * @return {boolean}
 	 */
 	shouldComponentUpdate( nextProps, nextState ){
-		if (
-			this.state.markerPosition.lat !== this.props.center.lat ||
-			this.state.address !== nextState.address ||
-			this.state.city !== nextState.city ||
-			this.state.area !== nextState.area ||
-			this.state.state !== nextState.state ||
-			this.state.locations !== nextState.state.locations ||
-			this.state.locationToAddressMap !== nextState.state.locationToAddressMap ||
-			this.state.locationToCharityMap !== nextState.state.locationToCharityMap 
-		) {
-			return true
-		} else if ( this.props.center.lat === nextProps.center.lat ){
-			return false
+		if(this.props.dataReady) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 	/**
 	 * Get the city and set the city input value to the one selected
@@ -294,10 +179,10 @@ class Map extends Component{
 					           defaultZoom={ this.props.zoom }
 					           defaultCenter={{ lat: -8.2238968, lng: 114.9516869 }}
 					>
-						{Object.entries(this.state.locationToAddressMap).map((entry) => 
+						{Object.entries(this.props.locationToAddressMap).map((entry) => 
 									<div>
 										<Marker google={this.props.google}
-										        label={this.state.locationToCharityMap[entry[0]].length+""}
+										        label={this.props.locationToCharityMap[entry[0]].length+""}
 										        draggable={true}
 										        onDragEnd={ this.onMarkerDragEnd }
 										        onClick={() => {this.showCharities(entry[0])}}
@@ -322,8 +207,8 @@ class Map extends Component{
 				)
 			)
 		);
-		let map;
-			map = <div>
+		return( 
+			<div>
 				{/*<div>
 					<div className="form-group">
 						<label htmlFor="">City</label>
@@ -355,37 +240,7 @@ class Map extends Component{
 						<div style={{ height: `100%` }} />
 					}
 				/>
-			</div>
-
-		return( 
-			<div className="">
-				<div className="row">
-				<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 map-div">
-					{map} 
-				</div>
-				<div className="col-lg-6  col-md-6  col-sm-12 col-xs-12 map-div charities">
-					{this.state.currentLocation && <div className="card">
-					    <div className="card-body">
-					      <h1 className="card-title">{this.state.currentLocation}</h1>
-					      	  {this.state.locationToCharityMap[this.state.currentLocation].map ((charity) => 
-							      <CharityCard charity={charity}/>
-						      )}
-					    </div>
-					  </div> }
-
-					  {!this.state.currentLocation && <div className="card">
-					    <div className="card-body">
-					    	<div>
-					      		<h1 className="card-title">Bali</h1>
-						      	  	{this.state.charities.map ((charity) => 
-								      <CharityCard charity={charity}/>
-							      	)}
-				    		</div>
-					  </div>
-					  </div> }
-					</div>
-				 </div>
-			</div>
+			</div> 
 			)
 	}
 }
