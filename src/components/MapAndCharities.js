@@ -191,6 +191,7 @@ class MapAndCharities extends Component{
 		return( 
 			<div className="">
 				<div className="row">
+				<div className="logoClass"><a href="https://foodbank.co"><img className="logoImg" src="/favicon.png"/></a></div>
 				<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 map-div">
 					<Map  
 						google={this.props.google}

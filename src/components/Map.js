@@ -234,7 +234,9 @@ class Map extends Component{
 						<div style={{ height: `100%` }} />
 					}
 					containerElement={
-						<div className="containerMap"/>
+						<div className="containerMap">
+							
+						</div>
 					}
 					mapElement={
 						<div style={{ height: `100%` }} />
