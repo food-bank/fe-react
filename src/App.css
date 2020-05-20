@@ -64,6 +64,11 @@
     justify-content: flex-end;
   }
   .containerMap{
-    height:80vh;
+    height:50vh;
+  }
+  .charities {
+    z-index:0;
+    overflow-y: auto;
+    height: auto;
   }
 }
