@@ -144,7 +144,7 @@ class MapAndCharities extends Component{
 	 * Get the current address from the default map position and set those values in the state
 	 */
 	componentDidMount() {
-		fetch('https://api.airtable.com/v0/appmSc1rY8HQoPQ5T/Organizations?api_key=keywaneNmq2i4Qwtq')
+		fetch(process.env.REACT_APP_AIRTABLE_URL)
 		    .then((resp) => resp.json())
 		    .then(data => {
 		      console.log(data);
