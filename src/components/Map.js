@@ -183,7 +183,7 @@ class Map extends Component{
 									<div>
 										<Marker google={this.props.google}
 										        label={this.props.locationToCharityMap[entry[0]].length+""}
-										        draggable={true}
+										        draggable={false}
 										        onDragEnd={ this.onMarkerDragEnd }
 										        onClick={() => {this.showCharities(entry[0])}}
 										        position={{ lat: entry[1][0].geometry.location.lat, lng: entry[1][0].geometry.location.lng }}
@@ -235,7 +235,7 @@ class Map extends Component{
 					}
 					containerElement={
 						<div className="containerMap">
-							
+
 						</div>
 					}
 					mapElement={
