@@ -4,6 +4,7 @@ import Geocode from "react-geocode";
 import Autocomplete from 'react-google-autocomplete';
 import '../App.css';
 import CharityCard from './CharityCard';
+import DropCard from './DropCard';
 import Map from './Map';
 Geocode.setApiKey( process.env.REACT_APP_API_KEY );
 Geocode.enableDebug();
@@ -26,11 +27,13 @@ class MapAndCharities extends Component{
 				lng: this.props.center.lng
 			},
 			charities: [],
+			drops: [],
       		locationToCharityMap: [],
       		locations: [],
       		locationToAddressMap: [],
       		currentLocation: '',
-      		dataReady: ''
+      		dataReady: '',
+      		tabSelected: 'org'
 		}
 	}
 
@@ -140,6 +143,10 @@ class MapAndCharities extends Component{
 		this.setState({currentLocation:location});
 	};
 
+	setTabSelected = (tab) => {
+		this.setState({tabSelected: tab});
+	}
+
 	/**
 	 * Get the current address from the default map position and set those values in the state
 	 */
@@ -147,9 +154,18 @@ class MapAndCharities extends Component{
 		fetch(process.env.REACT_APP_AIRTABLE_URL)
 		    .then((resp) => resp.json())
 		    .then(data => {
-		      console.log(data);
+		      // console.log(data);
 		      this.setState({ charities: data.records });
 		      this.populateLocationToCharityMap(data.records);
+		    }).catch(err => {
+		      // Error
+		    });
+
+		fetch(process.env.REACT_APP_AIRTABLE_DROP_URL)
+		    .then((resp) => resp.json())
+		    .then(data => {
+		      console.log(data);
+		      this.setState({ drops: data.records });
 		    }).catch(err => {
 		      // Error
 		    });
@@ -208,16 +224,35 @@ class MapAndCharities extends Component{
 					></Map>
 				</div>
 				<div className="col-lg-6  col-md-6  col-sm-12 col-xs-12 map-div charities">
-					{this.state.currentLocation && <div className="card">
+					{this.state.currentLocation && <div>
+						<div className="row">
+				          <div className="col">
+				            <div class="mb-4">
+				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-danger btn-lg mr-4">Organizations</button>
+				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg">Drops</button>
+				            </div>
+				          </div>
+				        </div>
+						<div className="card">
 					    <div className="card-body">
 					      <h1 className="card-title">{this.state.currentLocation}</h1>
 					      	  {this.state.locationToCharityMap[this.state.currentLocation].map ((charity) => 
 							      <CharityCard charity={charity}/>
 						      )}
 					    </div>
+					    </div>
 					  </div> }
 
-					  {!this.state.currentLocation && <div className="card">
+					  {!this.state.currentLocation && this.state.tabSelected=="org" && <div>
+					  	<div className="row">
+				          <div className="col">
+				            <div class="mb-4">
+				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-danger btn-lg mr-4">Organizations</button>
+				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg">Drops</button>
+				            </div>
+				          </div>
+				        </div>
+					  	<div className="card">
 					    <div className="card-body">
 					    	<div>
 					      		<h1 className="card-title">Bali</h1>
@@ -225,6 +260,28 @@ class MapAndCharities extends Component{
 								      <CharityCard charity={charity}/>
 							      	)}
 				    		</div>
+					  </div>
+					  </div>
+					  </div> }
+
+					  {!this.state.currentLocation && this.state.tabSelected=="drop" && <div>
+					  	<div className="row">
+				          <div className="col">
+				            <div class="mb-4">
+				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
+				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-danger btn-lg">Drops</button>
+				            </div>
+				          </div>
+				        </div>
+					  	<div className="card">
+					    <div className="card-body">
+					    	<div>
+					      		<h1 className="card-title">Bali</h1>
+						      	  	{this.state.drops.map ((drop) => 
+								      <DropCard drop={drop}/>
+							      	)}
+				    		</div>
+					  </div>
 					  </div>
 					  </div> }
 					</div>
