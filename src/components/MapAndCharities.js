@@ -33,12 +33,14 @@ class MapAndCharities extends Component{
       		locationToAddressMap: [],
       		currentLocation: '',
       		dataReady: '',
-      		tabSelected: 'org'
+      		tabSelected: 'org',
+      		locationToDropsMap: [],
+			dropLocations: [],
+			locationToDropAddressMap: []
 		}
 	}
 
 	populateLocationToCharityMap(records) {
-	  	console.log(records);
 	  	var map = {};
 	  	var locationToAddressMap = {};
 	  	var locations = [];
@@ -84,6 +86,56 @@ class MapAndCharities extends Component{
 		this.setState({ locationToCharityMap: map,
 		locations: locations,
 		locationToAddressMap: locationToAddressMap });
+	  }
+
+	  populateLocationToDropsMap(dropRecords) {
+	  	console.log(dropRecords);
+	  	var map = {};
+	  	var locationToAddressMap = {};
+	  	var locations = [];
+	  	for (var i in dropRecords) {
+	  		dropRecords[i].fields.Where = ["Badung - Kuta"];
+	  		for (var j in dropRecords[i].fields.Where) {
+	  			var loc = dropRecords[i].fields.Where[j];
+	  			if(map[loc] != null)
+	  				map[loc].push(dropRecords[i]);
+	  			else {
+	  				map[loc] = [];
+	  				map[loc].push(dropRecords[i]);
+	  				locations.push(loc);
+	  			}
+
+	  			
+	  		}
+		}
+		document.map=map;
+		var that = this;
+		var idx = 0;
+		locations.forEach(function(location) {
+			Geocode.fromAddress(location).then(
+				  response => {
+				    // const { lat, lng } = response.results[0].geometry.location;
+				    if(locationToAddressMap[location] != null)
+	  					locationToAddressMap[location].push(response.results[0]);
+		  			else {
+		  				locationToAddressMap[location] = [];
+		  				locationToAddressMap[location].push(response.results[0]);
+		  			}
+		  			idx++;
+		  			that.setState({locationToAddressMap:locationToAddressMap})
+		  			if(idx == locations.length) {
+		  				// that.setState({dataReady: true})
+		  			}
+				  },
+				  error => {
+				    console.error(error);
+				  }
+				);
+		});
+		document.map2= locationToAddressMap;
+		this.setState({ locationToDropsMap: map,
+		dropLocations: locations,
+		locationToDropAddressMap: locationToAddressMap });
 	  }
 
 	  /**
@@ -145,6 +197,9 @@ class MapAndCharities extends Component{
 
 	setTabSelected = (tab) => {
 		this.setState({tabSelected: tab});
+		if(tab=="drop") {
+			this.setState({currentLocation:null});
+		}
 	}
 
 	/**
@@ -166,6 +221,7 @@ class MapAndCharities extends Component{
 		    .then(data => {
 		      console.log(data);
 		      this.setState({ drops: data.records });
+		      this.populateLocationToDropsMap(data.records);
 		    }).catch(err => {
 		      // Error
 		    });
@@ -209,6 +265,7 @@ class MapAndCharities extends Component{
 				<div className="row">
 				<div className="logoClass"><a href="https://foodbank.co"><img className="logoImg" src="/favicon.png"/></a></div>
 				<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 map-div">
+					{this.state.tabSelected && 
 					<Map  
 						google={this.props.google}
 						center={{lat: -8.2238968, lng: 114.9516869}}
@@ -221,10 +278,16 @@ class MapAndCharities extends Component{
 			      		currentLocation={this.state.currentLocation}
 			      		dataReady={this.state.dataReady}
 			      		showCharities={this.showCharities}
+			      		drops={this.state.drops}
+			      		tabSelected={this.state.tabSelected}
+			      		locationToDropsMap={this.state.locationToDropsMap}
+						dropLocations={this.state.dropLocations}
+						locationToDropAddressMap={this.state.locationToDropAddressMap}
 					></Map>
+					}
 				</div>
 				<div className="col-lg-6  col-md-6  col-sm-12 col-xs-12 map-div charities">
-					{this.state.currentLocation && <div>
+					{this.state.currentLocation && this.state.tabSelected=="org" && <div>
 						<div className="row">
 				          <div className="col">
 				            <div class="mb-4">
@@ -238,6 +301,25 @@ class MapAndCharities extends Component{
 					      <h1 className="card-title">{this.state.currentLocation}</h1>
 					      	  {this.state.locationToCharityMap[this.state.currentLocation].map ((charity) => 
 							      <CharityCard charity={charity}/>
+						      )}
+					    </div>
+					    </div>
+					  </div> }
+
+					  {this.state.currentLocation && this.state.tabSelected=="drop" && <div>
+						<div className="row">
+				          <div className="col">
+				            <div class="mb-4">
+				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
+				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-danger btn-lg">Drops</button>
+				            </div>
+				          </div>
+				        </div>
+						<div className="card">
+					    <div className="card-body">
+					      <h1 className="card-title">{this.state.currentLocation}</h1>
+					      	  {this.state.locationToDropsMap[this.state.currentLocation].map ((drop) => 
+							      <DropCard drop={drop}/>
 						      )}
 					    </div>
 					    </div>

@@ -16,7 +16,7 @@ shouldComponentUpdate( nextProps, nextState ){
 				      {drop.fields.Date && <p className="card-text"><b>Date</b>: {drop.fields.Date }</p>}
 				      {drop.fields.What && <p className="card-text"><b>What</b>: {drop.fields.What }</p>}
 				      {drop.fields.Notes && <p className="card-text"><b>Notes</b>: {drop.fields.Notes }</p>}
-				      {drop.fields.Photos && <p className="card-text"><img src= {drop.fields.Photos[0].thumbnails.small.url }/></p>}
+				      {drop.fields.Photos && <p className="card-text"><a href={drop.fields.Photos[0].thumbnails.large.url} target="_blank"><img src= {drop.fields.Photos[0].thumbnails.small.url }/></a></p>}
 				      {drop.fields["Local contacts"] && <p className="card-text"><b>Local contacts</b>: {drop.fields["Local contacts"] }</p>}
 				      {drop.fields["Contact name (from Organizations)"] && <p className="card-text"><b>Main Contact Name</b>: {drop.fields["Contact name (from Organizations)"] }</p>}
 				      {drop.fields["Email (from Organizations)"] && <p className="card-text"><b>Email</b>: <a href={"mailto:"+drop.fields["Email (from Organizations)"]}>{drop.fields["Email (from Organizations)"] }</a></p>}
