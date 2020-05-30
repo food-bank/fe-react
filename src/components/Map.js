@@ -27,6 +27,8 @@ class Map extends Component{
 	 * @return {boolean}
 	 */
 	shouldComponentUpdate( nextProps, nextState ){
+		if(this.props.tabSelected != nextProps.tabSelected)
+			return true;
 		if(this.props.dataReady) {
 			return false;
 		}
@@ -179,10 +181,22 @@ class Map extends Component{
 					           defaultZoom={ this.props.zoom }
 					           defaultCenter={{ lat: -8.2238968, lng: 114.9516869 }}
 					>
-						{Object.entries(this.props.locationToAddressMap).map((entry) => 
+						{this.props.tabSelected=="org" && Object.entries(this.props.locationToAddressMap).map((entry) => 
 									<div>
 										<Marker google={this.props.google}
 										        label={this.props.locationToCharityMap[entry[0]].length+""}
+										        draggable={false}
+										        onDragEnd={ this.onMarkerDragEnd }
+										        onClick={() => {this.showCharities(entry[0])}}
+										        position={{ lat: entry[1][0].geometry.location.lat, lng: entry[1][0].geometry.location.lng }}
+										/>
+									</div>
+						)}
+
+						{this.props.tabSelected=="drop" && Object.entries(this.props.locationToDropAddressMap).map((entry) => 
+									<div>
+										<Marker google={this.props.google}
+										        label={this.props.locationToDropsMap[entry[0]].length+""}
 										        draggable={false}
 										        onDragEnd={ this.onMarkerDragEnd }
 										        onClick={() => {this.showCharities(entry[0])}}
