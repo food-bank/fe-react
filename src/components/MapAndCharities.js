@@ -89,20 +89,19 @@ class MapAndCharities extends Component{
 	  }
 
 	  populateLocationToDropsMap(dropRecords) {
-	  	console.log(dropRecords);
 	  	var map = {};
 	  	var locationToAddressMap = {};
-	  	var locations = [];
+	  	var dropLocations = [];
 	  	for (var i in dropRecords) {
-	  		dropRecords[i].fields.Where = ["Badung - Kuta"];
-	  		for (var j in dropRecords[i].fields.Where) {
-	  			var loc = dropRecords[i].fields.Where[j];
+	  		// dropRecords[i].fields.Where = ;
+	  		for (var j in dropRecords[i].fields["Name (from Regency)"]) {
+	  			var loc = dropRecords[i].fields["Name (from Regency)"][j];
 	  			if(map[loc] != null)
 	  				map[loc].push(dropRecords[i]);
 	  			else {
 	  				map[loc] = [];
 	  				map[loc].push(dropRecords[i]);
-	  				locations.push(loc);
+	  				dropLocations.push(loc);
 	  			}
 
 	  			
@@ -111,19 +110,19 @@ class MapAndCharities extends Component{
 		document.map=map;
 		var that = this;
 		var idx = 0;
-		locations.forEach(function(location) {
-			Geocode.fromAddress(location).then(
+		dropLocations.forEach(function(dropLocation) {
+			Geocode.fromAddress(dropLocation).then(
 				  response => {
 				    // const { lat, lng } = response.results[0].geometry.location;
-				    if(locationToAddressMap[location] != null)
-	  					locationToAddressMap[location].push(response.results[0]);
+				    if(locationToAddressMap[dropLocation] != null)
+	  					locationToAddressMap[dropLocation].push(response.results[0]);
 		  			else {
-		  				locationToAddressMap[location] = [];
-		  				locationToAddressMap[location].push(response.results[0]);
+		  				locationToAddressMap[dropLocation] = [];
+		  				locationToAddressMap[dropLocation].push(response.results[0]);
 		  			}
 		  			idx++;
 		  			that.setState({locationToAddressMap:locationToAddressMap})
-		  			if(idx == locations.length) {
+		  			if(idx == dropLocations.length) {
 		  				// that.setState({dataReady: true})
 		  			}
 				  },
@@ -134,7 +133,7 @@ class MapAndCharities extends Component{
 		});
 		document.map2= locationToAddressMap;
 		this.setState({ locationToDropsMap: map,
-		dropLocations: locations,
+		dropLocations: dropLocations,
 		locationToDropAddressMap: locationToAddressMap });
 	  }
 
@@ -197,15 +196,16 @@ class MapAndCharities extends Component{
 
 	setTabSelected = (tab) => {
 		this.setState({tabSelected: tab});
-		if(tab=="drop") {
-			this.setState({currentLocation:null});
-		}
+		this.setState({currentLocation:null});
 	}
 
 	/**
 	 * Get the current address from the default map position and set those values in the state
 	 */
 	componentDidMount() {
+		if(this.props.tab && this.props.tab=="drops") {
+			this.setTabSelected("drop");
+		}
 		fetch(process.env.REACT_APP_AIRTABLE_URL)
 		    .then((resp) => resp.json())
 		    .then(data => {
@@ -219,7 +219,7 @@ class MapAndCharities extends Component{
 		fetch(process.env.REACT_APP_AIRTABLE_DROP_URL)
 		    .then((resp) => resp.json())
 		    .then(data => {
-		      console.log(data);
+		      // console.log(data);
 		      this.setState({ drops: data.records });
 		      this.populateLocationToDropsMap(data.records);
 		    }).catch(err => {
@@ -234,7 +234,7 @@ class MapAndCharities extends Component{
 				      area = this.getArea( addressArray ),
 				      state = this.getState( addressArray );
 
-				console.log( 'city', city, area, state );
+				// console.log( 'city', city, area, state );
 
 				this.setState( {
 					address: ( address ) ? address : '',
