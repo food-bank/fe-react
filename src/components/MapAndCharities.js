@@ -301,7 +301,7 @@ class MapAndCharities extends Component{
 				            <hr/>
 				          </div>
 				        </div>
-						<div className="card">
+						<div>
 					    <div className="card-body">
 					      <h1 className="card-title">{this.state.currentLocation}</h1>
 					      	  {this.state.locationToCharityMap[this.state.currentLocation].map ((charity) => 
@@ -325,7 +325,7 @@ class MapAndCharities extends Component{
 				            <hr/>
 				          </div>
 				        </div>
-						<div className="card">
+						<div>
 					    <div className="card-body">
 					      <h1 className="card-title">{this.state.currentLocation}</h1>
 					      	  {this.state.locationToDropsMap[this.state.currentLocation].map ((drop) => 
