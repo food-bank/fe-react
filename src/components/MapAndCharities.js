@@ -290,10 +290,15 @@ class MapAndCharities extends Component{
 					{this.state.currentLocation && this.state.tabSelected=="org" && <div>
 						<div className="row">
 				          <div className="col">
-				            <div class="mb-4">
+				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-danger btn-lg mr-4">Organizations</button>
 				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg">Drops</button>
 				            </div>
+				            <div class="pt-4 pr-4 pl-4 pb-2">
+				            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
+				            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
+				            </div>
+				            <hr/>
 				          </div>
 				        </div>
 						<div className="card">
@@ -309,10 +314,15 @@ class MapAndCharities extends Component{
 					  {this.state.currentLocation && this.state.tabSelected=="drop" && <div>
 						<div className="row">
 				          <div className="col">
-				            <div class="mb-4">
+				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
 				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-danger btn-lg">Drops</button>
 				            </div>
+				            <div class="pt-4 pr-5 pl-4 pb-2">
+				            	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
+				            	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
+				            </div>
+				            <hr/>
 				          </div>
 				        </div>
 						<div className="card">
@@ -328,13 +338,18 @@ class MapAndCharities extends Component{
 					  {!this.state.currentLocation && this.state.tabSelected=="org" && <div>
 					  	<div className="row">
 				          <div className="col">
-				            <div class="mb-4">
+				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-danger btn-lg mr-4">Organizations</button>
 				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg">Drops</button>
 				            </div>
+				            <div class="pt-4 pr-5 pl-4 pb-2">
+				            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
+				            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
+				            </div>
+				            <hr/>
 				          </div>
 				        </div>
-					  	<div className="card">
+					  	<div>
 					    <div className="card-body">
 					    	<div>
 					      		<h1 className="card-title">Bali</h1>
@@ -349,13 +364,18 @@ class MapAndCharities extends Component{
 					  {!this.state.currentLocation && this.state.tabSelected=="drop" && <div>
 					  	<div className="row">
 				          <div className="col">
-				            <div class="mb-4">
+				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
 				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-danger btn-lg">Drops</button>
 				            </div>
+				            <div class="pt-4 pr-5 pl-4 pb-2">
+				            	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
+				            	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
+				            </div>
+				            <hr/>
 				          </div>
 				        </div>
-					  	<div className="card">
+					  	<div>
 					    <div className="card-body">
 					    	<div>
 					      		<h1 className="card-title">Bali</h1>
