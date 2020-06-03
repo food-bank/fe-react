@@ -308,7 +308,6 @@ class MapAndCharities extends Component{
 								  	<CharityCard charity={charity}/>
 							    )}
 						    </div>
-						    <hr class="d-block d-md-none" />
 						    <div class="pt-4 pr-4 pl-4 pb-2 d-block d-md-none">
 		            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
 		            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
@@ -337,7 +336,6 @@ class MapAndCharities extends Component{
 							      <DropCard drop={drop}/>
 						      )}
 					    </div>
-					    <hr class="d-block d-md-none" />
 					    <div class="pt-4 pr-5 pl-4 pb-2 d-block d-md-none">
 	            	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
 	            	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
@@ -368,7 +366,6 @@ class MapAndCharities extends Component{
 							      	)}
 				    		</div>
 					  	</div>
-				  		<hr class="d-block d-md-none" />
 				  		<div class="pt-4 pr-4 pl-4 pb-2 d-block d-md-none">
 	            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
 	            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
@@ -399,7 +396,6 @@ class MapAndCharities extends Component{
 							      	)}
 				    		</div>
 					  </div>
-					  <hr class="d-block d-md-none" />
 				    <div class="pt-4 pr-5 pl-4 pb-2 d-block d-md-none">
             	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
             	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
