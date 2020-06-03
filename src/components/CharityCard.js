@@ -19,7 +19,7 @@ shouldComponentUpdate( nextProps, nextState ){
 				      {charity.fields.Fundraising && <p className="card-text"><b>Fundraising</b>: {charity.fields.Fundraising.join(', ') }</p>}
 				      <p className="card-text"><b>Contact Name</b>: {charity.fields["Contact name"] }</p>
 				      {charity.fields.Email && <p className="card-text"><b>Email</b>: <a href={"mailto:"+charity.fields.Email}>{charity.fields.Email }</a></p>}
-				      {charity.fields.FB && <p className="card-text" style="word-break: break-all;"><b>FB</b>: <a href={charity.fields.FB} target="_blank">{charity.fields.FB}</a></p>}
+				      {charity.fields.FB && <p className="card-text"><b>FB</b>: <a href={charity.fields.FB} target="_blank">{charity.fields.FB}</a></p>}
 				      {charity.fields.WWW && <p className="card-text"><b>WWW</b>: <a href={charity.fields.WWW} target="_blank">{charity.fields.WWW }</a></p>}
 				      <p className="card-text"></p>
 		      	</div>

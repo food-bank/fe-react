@@ -20,7 +20,7 @@ shouldComponentUpdate( nextProps, nextState ){
 				      {drop.fields["Local contacts"] && <p className="card-text"><b>Local contacts</b>: {drop.fields["Local contacts"] }</p>}
 				      {drop.fields["Contact name (from Organizations)"] && <p className="card-text"><b>Main Contact Name</b>: {drop.fields["Contact name (from Organizations)"] }</p>}
 				      {drop.fields["Email (from Organizations)"] && <p className="card-text"><b>Email</b>: <a href={"mailto:"+drop.fields["Email (from Organizations)"]}>{drop.fields["Email (from Organizations)"] }</a></p>}
-				      {drop.fields["FB (from Organizations)"] && <p className="card-text" style="word-break: break-all;"><b>FB</b>: <a href={drop.fields["FB (from Organizations)"]} target="_blank">Facebook</a></p>}
+				      {drop.fields["FB (from Organizations)"] && <p className="card-text"><b>FB</b>: <a href={drop.fields["FB (from Organizations)"]} target="_blank">{drop.fields["FB (from Organizations)"]}</a></p>}
 				      {drop.fields["WWW (from Organizations)"] && <p className="card-text"><b>WWW</b>: <a href={drop.fields["WWW (from Organizations)"]} target="_blank">{drop.fields["WWW (from Organizations)"] }</a></p>}
 				      <p className="card-text"></p>
 		      	</div>
