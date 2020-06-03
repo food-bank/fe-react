@@ -261,7 +261,7 @@ class MapAndCharities extends Component{
 	
 	render(){
 		return( 
-			<div className="">
+			<div className="container-fluid">
 				<div className="row">
 				<div className="logoClass"><a href="https://foodbank.co"><img className="logoImg" src="/favicon.png"/></a></div>
 				<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 map-div">
@@ -288,41 +288,46 @@ class MapAndCharities extends Component{
 				</div>
 				<div className="col-lg-6  col-md-6  col-sm-12 col-xs-12 map-div charities">
 					{this.state.currentLocation && this.state.tabSelected=="org" && <div>
-						<div className="row">
-				          <div className="col">
+						<div>
+				          <div>
 				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-danger btn-lg mr-4">Organizations</button>
 				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg">Drops</button>
 				            </div>
-				            <div class="pt-4 pr-4 pl-4 pb-2">
+				            <div class="pt-4 pr-4 pl-4 pb-2 d-none d-md-block">
 				            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
 				            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
 				            </div>
-				            <hr/>
+				            <hr class="d-none d-md-block" />
 				          </div>
 				        </div>
-						<div>
-					    <div className="card-body">
-					      <h1 className="card-title">{this.state.currentLocation}</h1>
-					      	  {this.state.locationToCharityMap[this.state.currentLocation].map ((charity) => 
-							      <CharityCard charity={charity}/>
-						      )}
-					    </div>
+							<div>
+						    <div className="card-body">
+						      <h1 className="card-title">{this.state.currentLocation}</h1>
+						      {this.state.locationToCharityMap[this.state.currentLocation].map ((charity) => 
+								  	<CharityCard charity={charity}/>
+							    )}
+						    </div>
+						    <hr class="d-block d-md-none" />
+						    <div class="pt-4 pr-4 pl-4 pb-2 d-block d-md-none">
+		            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
+		            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
+		            </div>
 					    </div>
 					  </div> }
 
 					  {this.state.currentLocation && this.state.tabSelected=="drop" && <div>
-						<div className="row">
-				          <div className="col">
+						<div>
+				          <div>
 				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
 				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-danger btn-lg">Drops</button>
 				            </div>
-				            <div class="pt-4 pr-5 pl-4 pb-2">
+				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
 				            	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
 				            	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
 				            </div>
-				            <hr/>
+				            <hr class="d-none d-md-block" />
 				          </div>
 				        </div>
 						<div>
@@ -332,21 +337,26 @@ class MapAndCharities extends Component{
 							      <DropCard drop={drop}/>
 						      )}
 					    </div>
+					    <hr class="d-block d-md-none" />
+					    <div class="pt-4 pr-5 pl-4 pb-2 d-block d-md-none">
+	            	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
+	            	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
+	            </div>
 					    </div>
 					  </div> }
 
 					  {!this.state.currentLocation && this.state.tabSelected=="org" && <div>
-					  	<div className="row">
-				          <div className="col">
+					  	<div>
+				          <div>
 				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-danger btn-lg mr-4">Organizations</button>
 				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg">Drops</button>
 				            </div>
-				            <div class="pt-4 pr-5 pl-4 pb-2">
+				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
 				            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
 				            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
 				            </div>
-				            <hr/>
+				            <hr class="d-none d-md-block" />
 				          </div>
 				        </div>
 					  	<div>
@@ -357,22 +367,27 @@ class MapAndCharities extends Component{
 								      <CharityCard charity={charity}/>
 							      	)}
 				    		</div>
-					  </div>
+					  	</div>
+				  		<hr class="d-block d-md-none" />
+				  		<div class="pt-4 pr-4 pl-4 pb-2 d-block d-md-none">
+	            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
+	            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
+	            </div>
 					  </div>
 					  </div> }
 
 					  {!this.state.currentLocation && this.state.tabSelected=="drop" && <div>
-					  	<div className="row">
-				          <div className="col">
+					  	<div>
+				          <div>
 				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
 				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-danger btn-lg">Drops</button>
 				            </div>
-				            <div class="pt-4 pr-5 pl-4 pb-2">
+				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
 				            	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
 				            	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
 				            </div>
-				            <hr/>
+				            <hr class="d-none d-md-block" />
 				          </div>
 				        </div>
 					  	<div>
@@ -384,6 +399,11 @@ class MapAndCharities extends Component{
 							      	)}
 				    		</div>
 					  </div>
+					  <hr class="d-block d-md-none" />
+				    <div class="pt-4 pr-5 pl-4 pb-2 d-block d-md-none">
+            	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
+            	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
+            </div>
 					  </div>
 					  </div> }
 					</div>
