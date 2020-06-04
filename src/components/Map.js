@@ -29,7 +29,7 @@ class Map extends Component{
 	shouldComponentUpdate( nextProps, nextState ){
 		if(this.props.tabSelected != nextProps.tabSelected)
 			return true;
-		if(this.props.dataReady) {
+		if(this.props.dataReady >=3 ) {
 			return false;
 		}
 		return true;
@@ -197,6 +197,18 @@ class Map extends Component{
 									<div>
 										<Marker google={this.props.google}
 										        label={this.props.locationToDropsMap[entry[0]].length+""}
+										        draggable={false}
+										        onDragEnd={ this.onMarkerDragEnd }
+										        onClick={() => {this.showCharities(entry[0])}}
+										        position={{ lat: entry[1][0].geometry.location.lat, lng: entry[1][0].geometry.location.lng }}
+										/>
+									</div>
+						)}
+
+						{this.props.tabSelected=="requests" && Object.entries(this.props.locationToRequestAddressMap).map((entry) => 
+									<div>
+										<Marker google={this.props.google}
+										        label={this.props.locationToRequestsMap[entry[0]].length+""}
 										        draggable={false}
 										        onDragEnd={ this.onMarkerDragEnd }
 										        onClick={() => {this.showCharities(entry[0])}}

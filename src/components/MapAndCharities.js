@@ -5,6 +5,7 @@ import Autocomplete from 'react-google-autocomplete';
 import '../App.css';
 import CharityCard from './CharityCard';
 import DropCard from './DropCard';
+import RequestCard from './RequestCard';
 import Map from './Map';
 Geocode.setApiKey( process.env.REACT_APP_API_KEY );
 Geocode.enableDebug();
@@ -28,15 +29,18 @@ class MapAndCharities extends Component{
 			},
 			charities: [],
 			drops: [],
+			requests: [],
       		locationToCharityMap: [],
       		locations: [],
       		locationToAddressMap: [],
       		currentLocation: '',
-      		dataReady: '',
+      		dataReady: 0,
       		tabSelected: 'org',
       		locationToDropsMap: [],
 			dropLocations: [],
-			locationToDropAddressMap: []
+			locationToDropAddressMap: [],
+			requestLocations: [],
+			locationToRequestAddressMap: []
 		}
 	}
 
@@ -74,7 +78,7 @@ class MapAndCharities extends Component{
 		  			idx++;
 		  			that.setState({locationToAddressMap:locationToAddressMap})
 		  			if(idx == locations.length) {
-		  				that.setState({dataReady: true})
+		  				that.setState({dataReady: that.state.dataReady+1})
 		  			}
 				  },
 				  error => {
@@ -121,9 +125,9 @@ class MapAndCharities extends Component{
 		  				locationToAddressMap[dropLocation].push(response.results[0]);
 		  			}
 		  			idx++;
-		  			that.setState({locationToAddressMap:locationToAddressMap})
+		  			that.setState({locationToDropAddressMap:locationToAddressMap})
 		  			if(idx == dropLocations.length) {
-		  				// that.setState({dataReady: true})
+		  				that.setState({dataReady: that.state.dataReady+1})
 		  			}
 				  },
 				  error => {
@@ -135,6 +139,54 @@ class MapAndCharities extends Component{
 		this.setState({ locationToDropsMap: map,
 		dropLocations: dropLocations,
 		locationToDropAddressMap: locationToAddressMap });
+	  }
+
+	  populateLocationToRequestsMap(requestsRecords) {
+	  	var map = {};
+	  	var locationToAddressMap = {};
+	  	var requestLocations = [];
+	  	for (var i in requestsRecords) {
+	  		// dropRecords[i].fields.Where = ;
+	  		for (var j in requestsRecords[i].fields["Name (from Regency)"]) {
+	  			var loc = requestsRecords[i].fields["Name (from Regency)"][j];
+	  			if(map[loc] != null)
+	  				map[loc].push(requestsRecords[i]);
+	  			else {
+	  				map[loc] = [];
+	  				map[loc].push(requestsRecords[i]);
+	  				requestLocations.push(loc);
+	  			}
+
+	  			
+	  		}
+		}
+		document.reqmap=map;
+		var that = this;
+		var idx = 0;
+		requestLocations.forEach(function(reqLocation) {
+			Geocode.fromAddress(reqLocation).then(
+				  response => {
+				    // const { lat, lng } = response.results[0].geometry.location;
+				    if(locationToAddressMap[reqLocation] != null)
+	  					locationToAddressMap[reqLocation].push(response.results[0]);
+		  			else {
+		  				locationToAddressMap[reqLocation] = [];
+		  				locationToAddressMap[reqLocation].push(response.results[0]);
+		  			}
+		  			idx++;
+		  			that.setState({locationToRequestAddressMap:locationToAddressMap})
+		  			if(idx == requestLocations.length) {
+		  				that.setState({dataReady: that.state.dataReady+1})
+		  			}
+				  },
+				  error => {
+				    console.error(error);
+				  }
+				);
+		});
+		this.setState({ locationToRequestsMap: map,
+		requestLocations: requestLocations,
+		locationToRequestAddressMap: locationToAddressMap });
 	  }
 
 	  /**
@@ -206,6 +258,9 @@ class MapAndCharities extends Component{
 		if(this.props.tab && this.props.tab=="drops") {
 			this.setTabSelected("drop");
 		}
+		if(this.props.tab && this.props.tab=="requests") {
+			this.setTabSelected("requests");
+		}
 		fetch(process.env.REACT_APP_AIRTABLE_URL)
 		    .then((resp) => resp.json())
 		    .then(data => {
@@ -222,6 +277,16 @@ class MapAndCharities extends Component{
 		      // console.log(data);
 		      this.setState({ drops: data.records });
 		      this.populateLocationToDropsMap(data.records);
+		    }).catch(err => {
+		      // Error
+		    });
+
+		fetch(process.env.REACT_APP_AIRTABLE_REQUESTS_URL)
+		    .then((resp) => resp.json())
+		    .then(data => {
+		      // console.log(data);
+		      this.setState({ requests: data.records });
+		      this.populateLocationToRequestsMap(data.records);
 		    }).catch(err => {
 		      // Error
 		    });
@@ -283,6 +348,9 @@ class MapAndCharities extends Component{
 			      		locationToDropsMap={this.state.locationToDropsMap}
 						dropLocations={this.state.dropLocations}
 						locationToDropAddressMap={this.state.locationToDropAddressMap}
+						requestLocations={this.state.requestLocations}
+						locationToRequestAddressMap={this.state.locationToRequestAddressMap}
+						locationToRequestsMap={this.state.locationToRequestsMap}
 					></Map>
 					}
 				</div>
@@ -293,6 +361,7 @@ class MapAndCharities extends Component{
 				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-danger btn-lg mr-4">Organizations</button>
 				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg">Drops</button>
+				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				            <div class="pt-4 pr-4 pl-4 pb-2 d-none d-md-block">
 				            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
@@ -321,6 +390,7 @@ class MapAndCharities extends Component{
 				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
 				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-danger btn-lg">Drops</button>
+				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
 				            	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
@@ -343,12 +413,33 @@ class MapAndCharities extends Component{
 					    </div>
 					  </div> }
 
+					  {this.state.currentLocation && this.state.tabSelected=="requests" && <div>
+						<div className="row">
+				          <div className="col">
+				            <div class="mb-4">
+				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
+				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-danger btn-lg">Drops</button>
+				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-danger btn-lg">Requests</button>
+				            </div>
+				          </div>
+				        </div>
+						<div className="card">
+					    <div className="card-body">
+					      <h1 className="card-title">{this.state.currentLocation}</h1>
+					      	  {this.state.locationToRequestsMap[this.state.currentLocation].map ((request) => 
+							      <RequestCard request={request}/>
+						      )}
+					    </div>
+					    </div>
+					  </div> }
+
 					  {!this.state.currentLocation && this.state.tabSelected=="org" && <div>
 					  	<div>
 				          <div>
 				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-danger btn-lg mr-4">Organizations</button>
-				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg">Drops</button>
+				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg  mr-4">Drops</button>
+				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
 				            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
@@ -378,7 +469,8 @@ class MapAndCharities extends Component{
 				          <div>
 				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
-				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-danger btn-lg">Drops</button>
+				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-danger btn-lg mr-4">Drops</button>
+				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
 				            	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
@@ -402,6 +494,29 @@ class MapAndCharities extends Component{
             </div>
 					  </div>
 					  </div> }
+
+					  {!this.state.currentLocation && this.state.tabSelected=="requests" && <div>
+					  	<div className="row">
+				          <div className="col">
+				            <div class="mb-4">
+				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
+				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg mr-4">Drops</button>
+				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-danger btn-lg mr-4">Requests</button>
+				            </div>
+				          </div>
+				        </div>
+					  	<div className="card">
+					    <div className="card-body">
+					    	<div>
+					      		<h1 className="card-title">Bali</h1>
+						      	  	{this.state.requests.map ((request) => 
+								      <RequestCard request={request}/>
+							      	)}
+				    		</div>
+					  </div>
+					  </div>
+					  </div> }
+
 					</div>
 				 </div>
 			</div>
