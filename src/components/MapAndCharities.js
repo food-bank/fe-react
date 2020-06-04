@@ -360,7 +360,7 @@ class MapAndCharities extends Component{
 				          <div className="col">
 				            <div class="mb-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-danger btn-lg mr-4">Organizations</button>
-				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg">Drops</button>
+				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg mr-4">Drops</button>
 				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				          </div>
@@ -380,7 +380,7 @@ class MapAndCharities extends Component{
 				          <div className="col">
 				            <div class="mb-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
-				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-danger btn-lg">Drops</button>
+				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-danger btn-lg mr-4">Drops</button>
 				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				          </div>
@@ -400,8 +400,8 @@ class MapAndCharities extends Component{
 				          <div className="col">
 				            <div class="mb-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
-				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-danger btn-lg">Drops</button>
-				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-danger btn-lg">Requests</button>
+				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg mr-4">Drops</button>
+				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-danger btn-lg mr-4">Requests</button>
 				            </div>
 				          </div>
 				        </div>
