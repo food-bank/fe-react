@@ -389,7 +389,7 @@ class MapAndCharitiesIn extends Component{
 						    <div className="card-body">
 						      <h1 className="card-title">{this.state.currentLocation}</h1>
 						      {this.state.locationToCharityMap[this.state.currentLocation].map ((charity) => 
-								  	<CharityCard charity={charity}/>
+								  	<CharityCard charity={charity} location={this.props.location}/>
 							    )}
 						    </div>
 						    <div class="pt-4 pr-4 pl-4 pb-2 d-block d-md-none">
@@ -468,7 +468,7 @@ class MapAndCharitiesIn extends Component{
 					    	<div>
 					      		<h1 className="card-title">India</h1>
 						      	  	{this.state.charities.map ((charity) => 
-								      <CharityCard charity={charity}/>
+								      <CharityCard charity={charity} location={this.props.location}/>
 							      	)}
 				    		</div>
 					  	</div>
