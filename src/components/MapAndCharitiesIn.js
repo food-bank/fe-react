@@ -6,11 +6,11 @@ import '../App.css';
 import CharityCard from './CharityCard';
 import DropCard from './DropCard';
 import RequestCard from './RequestCard';
-import Map from './Map';
+import MapIn from './MapIn';
 Geocode.setApiKey( process.env.REACT_APP_API_KEY );
 Geocode.enableDebug();
 
-class MapAndCharities extends Component{
+class MapAndCharitiesIn extends Component{
 
 	constructor( props ){
 		super( props );
@@ -262,7 +262,10 @@ class MapAndCharities extends Component{
 			this.setTabSelected("requests");
 		}
 
-		fetch(process.env.REACT_APP_AIRTABLE_URL)
+		
+
+		if(this.props.location && this.props.location=="in") {
+			fetch('https://api.airtable.com/v0/app9Y3oDsJVMxq8VH/charities-in?api_key=keyZyazWxzWlKrcvJ')
 		    .then((resp) => resp.json())
 		    .then(data => {
 		      // console.log(data);
@@ -271,6 +274,17 @@ class MapAndCharities extends Component{
 		    }).catch(err => {
 		      // Error
 		    });
+		} else {
+			fetch(process.env.REACT_APP_AIRTABLE_URL)
+		    .then((resp) => resp.json())
+		    .then(data => {
+		      // console.log(data);
+		      this.setState({ charities: data.records });
+		      this.populateLocationToCharityMap(data.records);
+		    }).catch(err => {
+		      // Error
+		    });
+		}
 
 		fetch(process.env.REACT_APP_AIRTABLE_DROP_URL)
 		    .then((resp) => resp.json())
@@ -332,11 +346,11 @@ class MapAndCharities extends Component{
 				<div className="logoClass"><a href="https://foodbank.co"><img className="logoImg" src="/favicon.png"/></a></div>
 				<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 map-div">
 					{this.state.tabSelected && 
-					<Map  
+					<MapIn  
 						google={this.props.google}
-						center={{lat: -8.2238968, lng: 114.9516869}}
+						center={{lat: 19.0760, lng: 72.8777}}
 						height='100vh'
-						zoom={9}
+						zoom={6}
 						charities={this.state.charities}
 			      		locationToCharityMap={this.state.locationToCharityMap}
 			      		locations={this.state.locations}
@@ -352,7 +366,7 @@ class MapAndCharities extends Component{
 						requestLocations={this.state.requestLocations}
 						locationToRequestAddressMap={this.state.locationToRequestAddressMap}
 						locationToRequestsMap={this.state.locationToRequestsMap}
-					></Map>
+					></MapIn>
 					}
 				</div>
 				<div className="col-lg-6  col-md-6  col-sm-12 col-xs-12 map-div charities">
@@ -375,11 +389,11 @@ class MapAndCharities extends Component{
 						    <div className="card-body">
 						      <h1 className="card-title">{this.state.currentLocation}</h1>
 						      {this.state.locationToCharityMap[this.state.currentLocation].map ((charity) => 
-								  	<CharityCard charity={charity}/>
+								  	<CharityCard charity={charity} location={this.props.location}/>
 							    )}
 						    </div>
 						    <div class="pt-4 pr-4 pl-4 pb-2 d-block d-md-none">
-		            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
+		            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in India. Put your food mobilization organization on the map!</p>
 		            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
 		            </div>
 					    </div>
@@ -394,7 +408,7 @@ class MapAndCharities extends Component{
 				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
-				            	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
+				            	<p>Are you distributing food in India? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
 				            	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
 				            </div>
 				            <hr class="d-none d-md-block" />
@@ -408,7 +422,7 @@ class MapAndCharities extends Component{
 						      )}
 					    </div>
 					    <div class="pt-4 pr-5 pl-4 pb-2 d-block d-md-none">
-	            	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
+	            	<p>Are you distributing food in India? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in India.</p>
 	            	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
 	            </div>
 					    </div>
@@ -443,7 +457,7 @@ class MapAndCharities extends Component{
 				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
-				            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
+				            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in India. Put your food mobilization organization on the map!</p>
 				            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
 				            </div>
 				            <hr class="d-none d-md-block" />
@@ -452,7 +466,7 @@ class MapAndCharities extends Component{
 					  	<div>
 					    <div className="card-body">
 					    	<div>
-					      		<h1 className="card-title">Bali</h1>
+					      		<h1 className="card-title">India</h1>
 						      	  	{this.state.charities.map ((charity) => 
 								      <CharityCard charity={charity} location={this.props.location}/>
 							      	)}
@@ -524,4 +538,4 @@ class MapAndCharities extends Component{
 			)
 	}
 }
-export default MapAndCharities;
+export default MapAndCharitiesIn;
