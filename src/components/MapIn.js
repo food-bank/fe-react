@@ -10,6 +10,20 @@ class MapIn extends Component{
 
 	constructor( props ){
 		super( props );
+		this.state = {
+			address: '',
+			city: '',
+			area: '',
+			state: '',
+			mapPosition: {
+				lat: this.props.center.lat,
+				lng: this.props.center.lng
+			},
+			markerPosition: {
+				lat: this.props.center.lat,
+				lng: this.props.center.lng
+			}
+		}
 	}
 
 	
@@ -27,11 +41,11 @@ class MapIn extends Component{
 	 * @return {boolean}
 	 */
 	shouldComponentUpdate( nextProps, nextState ){
-		if(this.props.tabSelected != nextProps.tabSelected)
-			return true;
-		if(this.props.dataReady >=3 ) {
-			return false;
-		}
+		// if(this.props.tabSelected != nextProps.tabSelected)
+		// 	return true;
+		// if(this.props.dataReady >=3 ) {
+		// 	return false;
+		// }
 		return true;
 	}
 	/**
@@ -129,8 +143,8 @@ class MapIn extends Component{
 						lng: newLng
 					},
 					mapPosition: {
-						lat: newLat,
-						lng: newLng
+						lat: this.props.center.lat,
+						lng: this.props.center.lng
 					},
 				} )
 			},
@@ -179,7 +193,7 @@ class MapIn extends Component{
 				props => (
 					<GoogleMap google={ this.props.google }
 					           defaultZoom={ this.props.zoom }
-					           defaultCenter={{ lat: this.props.center.lat, lng: this.props.center.lng }}
+					           defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
 					>
 						{this.props.tabSelected=="org" && Object.entries(this.props.locationToAddressMap).map((entry) => 
 									<div>
@@ -224,7 +238,7 @@ class MapIn extends Component{
 								paddingLeft: '16px',
 								marginTop: '2px',
 								marginBottom: '500px',
-								display:"none"
+								display:"block"
 							}}
 							onPlaceSelected={ this.onPlaceSelected }
 							types={['(regions)']}
@@ -260,7 +274,7 @@ class MapIn extends Component{
 						<div style={{ height: `100%` }} />
 					}
 					containerElement={
-						<div className="containerMap">
+						<div className="containerMapIn">
 
 						</div>
 					}
