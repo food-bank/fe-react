@@ -44,6 +44,9 @@
 .containerMap{
   height:100vh;
 }
+.containerMapIn{
+  height:80vh;
+}
 
 .logoClass {
   position: absolute;
@@ -65,6 +68,13 @@
   .containerMap{
     height:50vh;
   }
+
+  .containerMapIn{
+    height:80vh;
+    margin-bottom: 40px;
+  }
+
+  
   .charities {
     z-index:0;
     overflow-y: auto;

@@ -247,8 +247,8 @@ class MapAndCharitiesIn extends Component{
 	};
 
 	setTabSelected = (tab) => {
-		this.setState({tabSelected: tab});
-		this.setState({currentLocation:null});
+		// this.setState({tabSelected: tab});
+		// this.setState({currentLocation:null});
 	}
 
 	/**
