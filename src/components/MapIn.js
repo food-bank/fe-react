@@ -43,9 +43,9 @@ class MapIn extends Component{
 	shouldComponentUpdate( nextProps, nextState ){
 		// if(this.props.tabSelected != nextProps.tabSelected)
 		// 	return true;
-		// if(this.props.dataReady >=3 ) {
-		// 	return false;
-		// }
+		if(this.props.dataReady <2 ) {
+			return false;
+		}
 		return true;
 	}
 	/**
