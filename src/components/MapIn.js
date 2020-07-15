@@ -22,15 +22,22 @@ class MapIn extends Component{
 			markerPosition: {
 				lat: this.props.center.lat,
 				lng: this.props.center.lng
-			}
+			},
+			zoom: this.props.zoom
 		}
 	}
 
 	
 
-	showCharities = ( location ) => {
+	showCharities = ( location, lat, lng ) => {
 		// console.log(placeId);
-		this.props.showCharities(location);
+		this.props.showCharities(location, lat, lng);
+		this.setState({
+			mapPosition: {
+						lat: lat,
+						lng: lng
+					}
+		});
 	};
 
 	/**
@@ -44,7 +51,7 @@ class MapIn extends Component{
 		// if(this.props.tabSelected != nextProps.tabSelected)
 		// 	return true;
 		if(this.props.dataReady <2 ) {
-			return false;
+			return true;
 		}
 		return true;
 	}
@@ -183,6 +190,7 @@ class MapIn extends Component{
 				lat: latValue,
 				lng: lngValue
 			},
+			zoom: 8
 		})
 	};
 
@@ -192,7 +200,7 @@ class MapIn extends Component{
 			withGoogleMap(
 				props => (
 					<GoogleMap google={ this.props.google }
-					           defaultZoom={ this.props.zoom }
+					           defaultZoom={ this.state.zoom }
 					           defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
 					>
 						{this.props.tabSelected=="org" && Object.entries(this.props.locationToAddressMap).map((entry) => 
@@ -201,7 +209,7 @@ class MapIn extends Component{
 										        label={this.props.locationToCharityMap[entry[0]].length+""}
 										        draggable={false}
 										        onDragEnd={ this.onMarkerDragEnd }
-										        onClick={() => {this.showCharities(entry[0])}}
+										        onClick={() => {this.showCharities(entry[0], entry[1][0].geometry.location.lat, entry[1][0].geometry.location.lng)}}
 										        position={{ lat: entry[1][0].geometry.location.lat, lng: entry[1][0].geometry.location.lng }}
 										/>
 									</div>

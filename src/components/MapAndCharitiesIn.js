@@ -7,6 +7,7 @@ import CharityCard from './CharityCard';
 import DropCard from './DropCard';
 import RequestCard from './RequestCard';
 import MapIn from './MapIn';
+var stateDistricts = require('../state-districts.json')
 Geocode.setApiKey( process.env.REACT_APP_API_KEY );
 Geocode.enableDebug();
 
@@ -48,6 +49,27 @@ class MapAndCharitiesIn extends Component{
 	  	var map = {};
 	  	var locationToAddressMap = {};
 	  	var locations = [];
+	  	
+	  	for (var i in records) {
+	  		var updatedLocations = [];
+	  		for (var j in records[i].fields.Where) {
+	  			var loc = records[i].fields.Where[j];
+	  			if(loc.includes("all")) {
+					for(var j=0;j<stateDistricts.states.length;j++) {
+						if(stateDistricts.states[j].state == loc) {
+							updatedLocations = updatedLocations.concat(stateDistricts.states[j].districts);
+						}
+					}
+				} else {
+					updatedLocations.push(loc);
+				}
+	  			
+	  		}
+	  		records[i].fields.Where = updatedLocations;
+		}
+
+		this.setState({ charities: records });
+
 	  	for (var i in records) {
 	  		for (var j in records[i].fields.Where) {
 	  			var loc = records[i].fields.Where[j];
@@ -65,6 +87,11 @@ class MapAndCharitiesIn extends Component{
 		document.map=map;
 		var that = this;
 		var idx = 0;
+
+		document.locations = locations;
+		document.stateDistricts = stateDistricts;
+		
+
 		locations.forEach(function(location) {
 			Geocode.fromAddress(location).then(
 				  response => {
@@ -88,7 +115,7 @@ class MapAndCharitiesIn extends Component{
 		});
 		document.map2= locationToAddressMap;
 		this.setState({ locationToCharityMap: map,
-		locations: locations,
+		locations: updatedLocations,
 		locationToAddressMap: locationToAddressMap });
 	  }
 
@@ -241,9 +268,14 @@ class MapAndCharitiesIn extends Component{
 		}
 	};
 
-	showCharities = ( location ) => {
+	showCharities = ( location, lat, lng ) => {
 		// console.log(placeId);
-		this.setState({currentLocation:location});
+		this.setState({currentLocation:location,
+					mapPosition: {
+						lat: lat,
+						lng: lng
+					} 
+		});
 	};
 
 	setTabSelected = (tab) => {
@@ -269,7 +301,7 @@ class MapAndCharitiesIn extends Component{
 		    .then((resp) => resp.json())
 		    .then(data => {
 		      // console.log(data);
-		      this.setState({ charities: data.records });
+		      
 		      this.populateLocationToCharityMap(data.records);
 		    }).catch(err => {
 		      // Error
@@ -286,25 +318,25 @@ class MapAndCharitiesIn extends Component{
 		    });
 		}
 
-		fetch(process.env.REACT_APP_AIRTABLE_DROP_URL)
-		    .then((resp) => resp.json())
-		    .then(data => {
-		      // console.log(data);
-		      this.setState({ drops: data.records });
-		      this.populateLocationToDropsMap(data.records);
-		    }).catch(err => {
-		      // Error
-		    });
+		// fetch(process.env.REACT_APP_AIRTABLE_DROP_URL)
+		//     .then((resp) => resp.json())
+		//     .then(data => {
+		//       // console.log(data);
+		//       this.setState({ drops: data.records });
+		//       this.populateLocationToDropsMap(data.records);
+		//     }).catch(err => {
+		//       // Error
+		//     });
 
-		fetch(process.env.REACT_APP_AIRTABLE_REQUESTS_URL)
-		    .then((resp) => resp.json())
-		    .then(data => {
-		      // console.log(data);
-		      this.setState({ requests: data.records });
-		      this.populateLocationToRequestsMap(data.records);
-		    }).catch(err => {
-		      // Error
-		    });
+		// fetch(process.env.REACT_APP_AIRTABLE_REQUESTS_URL)
+		//     .then((resp) => resp.json())
+		//     .then(data => {
+		//       // console.log(data);
+		//       this.setState({ requests: data.records });
+		//       this.populateLocationToRequestsMap(data.records);
+		//     }).catch(err => {
+		//       // Error
+		//     });
 
 		Geocode.fromLatLng( this.state.mapPosition.lat , this.state.mapPosition.lng ).then(
 			response => {
@@ -348,7 +380,7 @@ class MapAndCharitiesIn extends Component{
 					{this.state.tabSelected && 
 					<MapIn  
 						google={this.props.google}
-						center={{lat: 19.0760, lng: 72.8777}}
+						center={{lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng}}
 						height='100vh'
 						zoom={6}
 						charities={this.state.charities}
