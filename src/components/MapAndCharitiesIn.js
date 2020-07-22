@@ -65,6 +65,7 @@ class MapAndCharitiesIn extends Component{
 				}
 	  			
 	  		}
+	  		records[i].fields.WhereOriginal = records[i].fields.Where;
 	  		records[i].fields.Where = updatedLocations;
 		}
 
@@ -84,12 +85,17 @@ class MapAndCharitiesIn extends Component{
 	  			
 	  		}
 		}
+
+// sort by priority or organisations 
+		for(var key in map){
+		    map[key].sort((a, b) => a.fields.Priority - b.fields.Priority);
+		}
+
 		document.map=map;
 		var that = this;
 		var idx = 0;
 
 		document.locations = locations;
-		document.stateDistricts = stateDistricts;
 		
 
 		locations.forEach(function(location) {
@@ -411,8 +417,8 @@ class MapAndCharitiesIn extends Component{
 				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				            <div class="pt-4 pr-4 pl-4 pb-2 d-none d-md-block">
-				            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
-				            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
+				            	<p><strong>Foodbank</strong> is a matching service for help seekers, donors, volunteers and food distribution initiatives in India. Put your food mobilization organization on the map!</p>
+				            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank →</strong></a></p>
 				            </div>
 				            <hr class="d-none d-md-block" />
 				          </div>
@@ -425,8 +431,8 @@ class MapAndCharitiesIn extends Component{
 							    )}
 						    </div>
 						    <div class="pt-4 pr-4 pl-4 pb-2 d-block d-md-none">
-		            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in India. Put your food mobilization organization on the map!</p>
-		            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
+		            	<p><strong>Foodbank</strong> is a matching service for help seekers, donors, volunteers and food distribution initiatives in India. Put your food mobilization organization on the map!</p>
+		            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank →</strong></a></p>
 		            </div>
 					    </div>
 					  </div> }
@@ -489,8 +495,8 @@ class MapAndCharitiesIn extends Component{
 				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
-				            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in India. Put your food mobilization organization on the map!</p>
-				            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
+				            	<p><strong>Foodbank</strong> is a matching service for help seekers, donors, volunteers and food distribution initiatives in India. Put your food mobilization organization on the map!</p>
+				            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank →</strong></a></p>
 				            </div>
 				            <hr class="d-none d-md-block" />
 				          </div>
