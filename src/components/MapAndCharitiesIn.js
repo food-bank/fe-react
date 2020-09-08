@@ -5,7 +5,7 @@ import Autocomplete from 'react-google-autocomplete';
 import '../App.css';
 import CharityCard from './CharityCard';
 import DropCard from './DropCard';
-import RequestCard from './RequestCard';
+import RequestCardIn from './RequestCardIn';
 import MapIn from './MapIn';
 var stateDistricts = require('../state-districts.json')
 Geocode.setApiKey( process.env.REACT_APP_API_KEY );
@@ -179,9 +179,10 @@ class MapAndCharitiesIn extends Component{
 	  	var locationToAddressMap = {};
 	  	var requestLocations = [];
 	  	for (var i in requestsRecords) {
+	  		// if(requestsRecords[i].fields["Status"] == "Done") continue;
 	  		// dropRecords[i].fields.Where = ;
-	  		for (var j in requestsRecords[i].fields["Name (from Regency)"]) {
-	  			var loc = requestsRecords[i].fields["Name (from Regency)"][j];
+	  		for (var j in requestsRecords[i].fields["District"]) {
+	  			var loc = requestsRecords[i].fields["District"][j];
 	  			if(map[loc] != null)
 	  				map[loc].push(requestsRecords[i]);
 	  			else {
@@ -217,6 +218,7 @@ class MapAndCharitiesIn extends Component{
 				  }
 				);
 		});
+		document.map2= locationToAddressMap;
 		this.setState({ locationToRequestsMap: map,
 		requestLocations: requestLocations,
 		locationToRequestAddressMap: locationToAddressMap });
@@ -285,8 +287,9 @@ class MapAndCharitiesIn extends Component{
 	};
 
 	setTabSelected = (tab) => {
-		// this.setState({tabSelected: tab});
-		// this.setState({currentLocation:null});
+		if(tab == "drop") return;
+		this.setState({tabSelected: tab});
+		this.setState({currentLocation:null});
 	}
 
 	/**
@@ -334,15 +337,15 @@ class MapAndCharitiesIn extends Component{
 		//       // Error
 		//     });
 
-		// fetch(process.env.REACT_APP_AIRTABLE_REQUESTS_URL)
-		//     .then((resp) => resp.json())
-		//     .then(data => {
-		//       // console.log(data);
-		//       this.setState({ requests: data.records });
-		//       this.populateLocationToRequestsMap(data.records);
-		//     }).catch(err => {
-		//       // Error
-		//     });
+		fetch('https://api.airtable.com/v0/app9Y3oDsJVMxq8VH/help-requests?api_key=keyZyazWxzWlKrcvJ&view=UnSolved')
+		    .then((resp) => resp.json())
+		    .then(data => {
+		      // console.log(data);
+		      this.setState({ requests: data.records });
+		      this.populateLocationToRequestsMap(data.records);
+		    }).catch(err => {
+		      // Error
+		    });
 
 		Geocode.fromLatLng( this.state.mapPosition.lat , this.state.mapPosition.lng ).then(
 			response => {
@@ -381,7 +384,7 @@ class MapAndCharitiesIn extends Component{
 		return( 
 			<div className="container-fluid">
 				<div className="row">
-				<div className="logoClass"><a href="https://foodbank.co"><img className="logoImg" src="/favicon.png"/></a></div>
+				<div className="logoClass"><a href="https://india.foodbank.co"><img className="logoImg" src="/favicon.png"/></a></div>
 				<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 map-div">
 					{this.state.tabSelected && 
 					<MapIn  
@@ -418,7 +421,7 @@ class MapAndCharitiesIn extends Component{
 				            </div>
 				            <div class="pt-4 pr-4 pl-4 pb-2 d-none d-md-block">
 				            	<p><strong>Foodbank</strong> is a matching service for help seekers, donors, volunteers and food distribution initiatives in India. Put your food mobilization organization on the map!</p>
-				            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank →</strong></a></p>
+				            	<p><a class="btn btn-light" href="https://india.foodbank.co/join"><strong>Join FoodBank →</strong></a></p>
 				            </div>
 				            <hr class="d-none d-md-block" />
 				          </div>
@@ -432,7 +435,7 @@ class MapAndCharitiesIn extends Component{
 						    </div>
 						    <div class="pt-4 pr-4 pl-4 pb-2 d-block d-md-none">
 		            	<p><strong>Foodbank</strong> is a matching service for help seekers, donors, volunteers and food distribution initiatives in India. Put your food mobilization organization on the map!</p>
-		            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank →</strong></a></p>
+		            	<p><a class="btn btn-light" href="https://india.foodbank.co/join"><strong>Join FoodBank →</strong></a></p>
 		            </div>
 					    </div>
 					  </div> }
@@ -446,8 +449,8 @@ class MapAndCharitiesIn extends Component{
 				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
-				            	<p>Are you distributing food in India? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
-				            	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
+				            	<p>Are you distributing food in India? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in India.</p>
+				            	<p><a class="btn btn-light" href="https://india.foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
 				            </div>
 				            <hr class="d-none d-md-block" />
 				          </div>
@@ -461,7 +464,7 @@ class MapAndCharitiesIn extends Component{
 					    </div>
 					    <div class="pt-4 pr-5 pl-4 pb-2 d-block d-md-none">
 	            	<p>Are you distributing food in India? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in India.</p>
-	            	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
+	            	<p><a class="btn btn-light" href="https://india.foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
 	            </div>
 					    </div>
 					  </div> }
@@ -480,7 +483,7 @@ class MapAndCharitiesIn extends Component{
 					    <div className="card-body">
 					      <h1 className="card-title">{this.state.currentLocation}</h1>
 					      	  {this.state.locationToRequestsMap[this.state.currentLocation].map ((request) => 
-							      <RequestCard request={request}/>
+							      <RequestCardIn request={request}/>
 						      )}
 					    </div>
 					    </div>
@@ -496,7 +499,7 @@ class MapAndCharitiesIn extends Component{
 				            </div>
 				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
 				            	<p><strong>Foodbank</strong> is a matching service for help seekers, donors, volunteers and food distribution initiatives in India. Put your food mobilization organization on the map!</p>
-				            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank →</strong></a></p>
+				            	<p><a class="btn btn-light" href="https://india.foodbank.co/join"><strong>Join FoodBank →</strong></a></p>
 				            </div>
 				            <hr class="d-none d-md-block" />
 				          </div>
@@ -511,8 +514,8 @@ class MapAndCharitiesIn extends Component{
 				    		</div>
 					  	</div>
 				  		<div class="pt-4 pr-4 pl-4 pb-2 d-block d-md-none">
-	            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in Bali. Put your food mobilization organization on the map!</p>
-	            	<p><a class="btn btn-light" href="https://foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
+	            	<p><strong>Foodbank.co</strong> is a matching service for help seekers, donors and food distribution initiatives in India. Put your food mobilization organization on the map!</p>
+	            	<p><a class="btn btn-light" href="https://india.foodbank.co/join"><strong>Join FoodBank.co →</strong></a></p>
 	            </div>
 					  </div>
 					  </div> }
@@ -526,8 +529,8 @@ class MapAndCharitiesIn extends Component{
 				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
-				            	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
-				            	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
+				            	<p>Are you distributing food in India? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in India.</p>
+				            	<p><a class="btn btn-light" href="https://india.foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
 				            </div>
 				            <hr class="d-none d-md-block" />
 				          </div>
@@ -535,15 +538,15 @@ class MapAndCharitiesIn extends Component{
 					  	<div>
 					    <div className="card-body">
 					    	<div>
-					      		<h1 className="card-title">Bali</h1>
+					      		<h1 className="card-title">India</h1>
 						      	  	{this.state.drops.map ((drop) => 
 								      <DropCard drop={drop}/>
 							      	)}
 				    		</div>
 					  </div>
 				    <div class="pt-4 pr-5 pl-4 pb-2 d-block d-md-none">
-            	<p>Are you distributing food in Bali? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in Bali.</p>
-            	<p><a class="btn btn-light" href="https://foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
+            	<p>Are you distributing food in India? <strong>Please, add information about your food drop.</strong> It will take only 2-3 minutes of your time per each drop, and it will greatly help to reduce double dipping in India.</p>
+            	<p><a class="btn btn-light" href="https://india.foodbank.co/drop"><strong>+ Register your drop</strong></a></p>
             </div>
 					  </div>
 					  </div> }
@@ -561,9 +564,9 @@ class MapAndCharitiesIn extends Component{
 					  	<div className="card">
 					    <div className="card-body">
 					    	<div>
-					      		<h1 className="card-title">Bali</h1>
+					      		<h1 className="card-title">India</h1>
 						      	  	{this.state.requests.map ((request) => 
-								      <RequestCard request={request}/>
+								      <RequestCardIn request={request}/>
 							      	)}
 				    		</div>
 					  </div>
