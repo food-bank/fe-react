@@ -7,6 +7,11 @@
   pointer-events: none;
 }
 
+.whatsapp_icon {
+  height: 5vh;
+  width: 5vh;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

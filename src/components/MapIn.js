@@ -221,7 +221,7 @@ class MapIn extends Component{
 										        label={this.props.locationToDropsMap[entry[0]].length+""}
 										        draggable={false}
 										        onDragEnd={ this.onMarkerDragEnd }
-										        onClick={() => {this.showCharities(entry[0])}}
+										        onClick={() => {this.showCharities(entry[0], entry[1][0].geometry.location.lat, entry[1][0].geometry.location.lng)}}
 										        position={{ lat: entry[1][0].geometry.location.lat, lng: entry[1][0].geometry.location.lng }}
 										/>
 									</div>
@@ -233,7 +233,7 @@ class MapIn extends Component{
 										        label={this.props.locationToRequestsMap[entry[0]].length+""}
 										        draggable={false}
 										        onDragEnd={ this.onMarkerDragEnd }
-										        onClick={() => {this.showCharities(entry[0])}}
+										        onClick={() => {this.showCharities(entry[0], entry[1][0].geometry.location.lat, entry[1][0].geometry.location.lng)}}
 										        position={{ lat: entry[1][0].geometry.location.lat, lng: entry[1][0].geometry.location.lng }}
 										/>
 									</div>
