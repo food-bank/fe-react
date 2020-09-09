@@ -24,7 +24,6 @@ shouldComponentUpdate( nextProps, nextState ){
 				      {request.fields.ID && <p className="card-text"><b>Request ID</b>: {request.fields.ID }</p>}
 				      {request.fields.Location && <p className="card-text"><b>Location</b>: {request.fields.Location }</p>}
 				      {request.fields.Photos && <p className="card-text"><a href={request.fields.Photos[0].thumbnails.large.url} target="_blank"><img src= {request.fields.Photos[0].thumbnails.small.url }/></a></p>}
-				      {request.fields["Name"] && <p className="card-text"><b>Name</b>: {initials}</p>}
 				      {request.fields["State"] && <p className="card-text"><b>Location</b>: {request.fields.District} ({request.fields.State})</p>}
 				      {request.fields["Details"] && <p className="card-text"><b>Details</b>: {request.fields["Details"] }</p>}
 				      {request.fields["Type"] && <p className="card-text"><b>Type</b>: {request.fields["Type"] }</p>}
