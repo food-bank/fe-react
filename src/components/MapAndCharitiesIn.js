@@ -494,7 +494,7 @@ class MapAndCharitiesIn extends Component{
 				          <div>
 				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-danger btn-lg mr-4">Organizations</button>
-				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg  mr-4">Drops</button>
+				              {/* <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg  mr-4">Drops</button> */}  {/*Drop button hid*/}
 				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
@@ -554,9 +554,9 @@ class MapAndCharitiesIn extends Component{
 					  {!this.state.currentLocation && this.state.tabSelected=="requests" && <div>
 					  	<div className="row">
 				          <div className="col">
-				            <div class="mb-4">
+				            <div class="mb-4 mt-4 ml-4"> {/* Space at top issue when tab switched,resolved. */}
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
-				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg mr-4">Drops</button>
+				              {/* <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg mr-4">Drops</button> */} {/* Drop button hid */}
 				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-danger btn-lg mr-4">Requests</button>
 				            </div>
 				          </div>
