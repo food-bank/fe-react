@@ -77,7 +77,7 @@ class MapAndCharities extends Component{
 		  			}
 		  			idx++;
 		  			that.setState({locationToAddressMap:locationToAddressMap})
-		  			if(idx == locations.length) {
+		  			if(idx === locations.length) {
 		  				that.setState({dataReady: that.state.dataReady+1})
 		  			}
 				  },
@@ -126,7 +126,7 @@ class MapAndCharities extends Component{
 		  			}
 		  			idx++;
 		  			that.setState({locationToDropAddressMap:locationToAddressMap})
-		  			if(idx == dropLocations.length) {
+		  			if(idx === dropLocations.length) {
 		  				that.setState({dataReady: that.state.dataReady+1})
 		  			}
 				  },
@@ -175,7 +175,7 @@ class MapAndCharities extends Component{
 		  			}
 		  			idx++;
 		  			that.setState({locationToRequestAddressMap:locationToAddressMap})
-		  			if(idx == requestLocations.length) {
+		  			if(idx === requestLocations.length) {
 		  				that.setState({dataReady: that.state.dataReady+1})
 		  			}
 				  },
@@ -255,10 +255,10 @@ class MapAndCharities extends Component{
 	 * Get the current address from the default map position and set those values in the state
 	 */
 	componentDidMount() {
-		if(this.props.tab && this.props.tab=="drops") {
+		if(this.props.tab && this.props.tab==="drops") {
 			this.setTabSelected("drop");
 		}
-		if(this.props.tab && this.props.tab=="requests") {
+		if(this.props.tab && this.props.tab==="requests") {
 			this.setTabSelected("requests");
 		}
 
@@ -356,7 +356,7 @@ class MapAndCharities extends Component{
 					}
 				</div>
 				<div className="col-lg-6  col-md-6  col-sm-12 col-xs-12 map-div charities">
-					{this.state.currentLocation && this.state.tabSelected=="org" && <div>
+					{this.state.currentLocation && this.state.tabSelected==="org" && <div>
 						<div>
 				          <div>
 				            <div class="pt-4 pr-4 pl-4">
@@ -385,7 +385,7 @@ class MapAndCharities extends Component{
 					    </div>
 					  </div> }
 
-					  {this.state.currentLocation && this.state.tabSelected=="drop" && <div>
+					  {this.state.currentLocation && this.state.tabSelected==="drop" && <div>
 						<div>
 				          <div>
 				            <div class="pt-4 pr-4 pl-4">
@@ -414,7 +414,7 @@ class MapAndCharities extends Component{
 					    </div>
 					  </div> }
 
-					  {this.state.currentLocation && this.state.tabSelected=="requests" && <div>
+					  {this.state.currentLocation && this.state.tabSelected==="requests" && <div>
 						<div className="row">
 				          <div className="col">
 				            <div class="mb-4">
@@ -434,7 +434,7 @@ class MapAndCharities extends Component{
 					    </div>
 					  </div> }
 
-					  {!this.state.currentLocation && this.state.tabSelected=="org" && <div>
+					  {!this.state.currentLocation && this.state.tabSelected==="org" && <div>
 					  	<div>
 				          <div>
 				            <div class="pt-4 pr-4 pl-4">
@@ -465,7 +465,7 @@ class MapAndCharities extends Component{
 					  </div>
 					  </div> }
 
-					  {!this.state.currentLocation && this.state.tabSelected=="drop" && <div>
+					  {!this.state.currentLocation && this.state.tabSelected==="drop" && <div>
 					  	<div>
 				          <div>
 				            <div class="pt-4 pr-4 pl-4">
@@ -496,7 +496,7 @@ class MapAndCharities extends Component{
 					  </div>
 					  </div> }
 
-					  {!this.state.currentLocation && this.state.tabSelected=="requests" && <div>
+					  {!this.state.currentLocation && this.state.tabSelected==="requests" && <div>
 					  	<div className="row">
 				          <div className="col">
 				            <div class="mb-4">

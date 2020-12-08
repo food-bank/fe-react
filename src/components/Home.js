@@ -15,7 +15,7 @@ class Home extends Component {
 		// }
 		return(
 			<div style={{}}>
-				{parsed.location && parsed.location == "in" ?
+				{parsed.location && parsed.location === "in" ?
 				<MapAndCharitiesIn
 					google={this.props.google}
 					center={{lat: 19.0760, lng: 72.8777}}

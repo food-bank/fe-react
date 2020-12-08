@@ -10,7 +10,7 @@ shouldComponentUpdate( nextProps, nextState ){
 		return(
 			<div className="card-deck">
 				<div className="card mb-4">
-					{this.props.location && this.props.location == "in" ?
+					{this.props.location && this.props.location === "in" ?
 						<div className="card-body">
 					      {charity.fields.Organization && <h2 className="card-text mb-4">{charity.fields.Organization}</h2>}
 					      {charity.fields.WhereOriginal && <p className="card-text"><b>Where</b>: {charity.fields.WhereOriginal.join(', ') }</p>}
