@@ -203,7 +203,7 @@ class MapIn extends Component{
 					           defaultZoom={ this.state.zoom }
 					           defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
 					>
-						{this.props.tabSelected=="org" && Object.entries(this.props.locationToAddressMap).map((entry) => 
+						{this.props.tabSelected==="org" && Object.entries(this.props.locationToAddressMap).map((entry) => 
 									<div>
 										<Marker google={this.props.google}
 										        label={this.props.locationToCharityMap[entry[0]].length+""}
@@ -215,7 +215,7 @@ class MapIn extends Component{
 									</div>
 						)}
 
-						{this.props.tabSelected=="drop" && Object.entries(this.props.locationToDropAddressMap).map((entry) => 
+						{this.props.tabSelected==="drop" && Object.entries(this.props.locationToDropAddressMap).map((entry) => 
 									<div>
 										<Marker google={this.props.google}
 										        label={this.props.locationToDropsMap[entry[0]].length+""}
@@ -227,7 +227,7 @@ class MapIn extends Component{
 									</div>
 						)}
 
-						{this.props.tabSelected=="requests" && Object.entries(this.props.locationToRequestAddressMap).map((entry) => 
+						{this.props.tabSelected==="requests" && Object.entries(this.props.locationToRequestAddressMap).map((entry) => 
 									<div>
 										<Marker google={this.props.google}
 										        label={this.props.locationToRequestsMap[entry[0]].length+""}

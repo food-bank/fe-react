@@ -56,7 +56,7 @@ class MapAndCharitiesIn extends Component{
 	  			var loc = records[i].fields.Where[j];
 	  			if(loc.includes("all")) {
 					for(var j=0;j<stateDistricts.states.length;j++) {
-						if(stateDistricts.states[j].state == loc) {
+						if(stateDistricts.states[j].state === loc) {
 							updatedLocations = updatedLocations.concat(stateDistricts.states[j].districts);
 						}
 					}
@@ -110,7 +110,7 @@ class MapAndCharitiesIn extends Component{
 		  			}
 		  			idx++;
 		  			that.setState({locationToAddressMap:locationToAddressMap})
-		  			if(idx == locations.length) {
+		  			if(idx === locations.length) {
 		  				that.setState({dataReady: that.state.dataReady+1})
 		  			}
 				  },
@@ -159,7 +159,7 @@ class MapAndCharitiesIn extends Component{
 		  			}
 		  			idx++;
 		  			that.setState({locationToDropAddressMap:locationToAddressMap})
-		  			if(idx == dropLocations.length) {
+		  			if(idx === dropLocations.length) {
 		  				that.setState({dataReady: that.state.dataReady+1})
 		  			}
 				  },
@@ -209,7 +209,7 @@ class MapAndCharitiesIn extends Component{
 		  			}
 		  			idx++;
 		  			that.setState({locationToRequestAddressMap:locationToAddressMap})
-		  			if(idx == requestLocations.length) {
+		  			if(idx === requestLocations.length) {
 		  				that.setState({dataReady: that.state.dataReady+1})
 		  			}
 				  },
@@ -287,7 +287,7 @@ class MapAndCharitiesIn extends Component{
 	};
 
 	setTabSelected = (tab) => {
-		if(tab == "drop") return;
+		if(tab === "drop") return;
 		this.setState({tabSelected: tab});
 		this.setState({currentLocation:null});
 	}
@@ -296,16 +296,16 @@ class MapAndCharitiesIn extends Component{
 	 * Get the current address from the default map position and set those values in the state
 	 */
 	componentDidMount() {
-		if(this.props.tab && this.props.tab=="drops") {
+		if(this.props.tab && this.props.tab==="drops") {
 			this.setTabSelected("drop");
 		}
-		if(this.props.tab && this.props.tab=="requests") {
+		if(this.props.tab && this.props.tab==="requests") {
 			this.setTabSelected("requests");
 		}
 
 		
 
-		if(this.props.location && this.props.location=="in") {
+		if(this.props.location && this.props.location==="in") {
 			fetch('https://api.airtable.com/v0/app9Y3oDsJVMxq8VH/charities-in?api_key=keyZyazWxzWlKrcvJ')
 		    .then((resp) => resp.json())
 		    .then(data => {
@@ -411,7 +411,7 @@ class MapAndCharitiesIn extends Component{
 					}
 				</div>
 				<div className="col-lg-6  col-md-6  col-sm-12 col-xs-12 map-div charities">
-					{this.state.currentLocation && this.state.tabSelected=="org" && <div>
+					{this.state.currentLocation && this.state.tabSelected==="org" && <div>
 						<div>
 				          <div>
 				            <div class="pt-4 pr-4 pl-4">
@@ -440,7 +440,7 @@ class MapAndCharitiesIn extends Component{
 					    </div>
 					  </div> }
 
-					  {this.state.currentLocation && this.state.tabSelected=="drop" && <div>
+					  {this.state.currentLocation && this.state.tabSelected==="drop" && <div>
 						<div>
 				          <div>
 				            <div class="pt-4 pr-4 pl-4">
@@ -469,7 +469,7 @@ class MapAndCharitiesIn extends Component{
 					    </div>
 					  </div> }
 
-					  {this.state.currentLocation && this.state.tabSelected=="requests" && <div>
+					  {this.state.currentLocation && this.state.tabSelected==="requests" && <div>
 						<div className="row">
 				          <div className="col">
 				            <div class="mb-4">
@@ -489,12 +489,12 @@ class MapAndCharitiesIn extends Component{
 					    </div>
 					  </div> }
 
-					  {!this.state.currentLocation && this.state.tabSelected=="org" && <div>
+					  {!this.state.currentLocation && this.state.tabSelected==="org" && <div>
 					  	<div>
 				          <div>
 				            <div class="pt-4 pr-4 pl-4">
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-danger btn-lg mr-4">Organizations</button>
-				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg  mr-4">Drops</button>
+				              {/* <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg  mr-4">Drops</button> */}  {/*Drop button hid*/}
 				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-dark btn-lg mr-4">Requests</button>
 				            </div>
 				            <div class="pt-4 pr-5 pl-4 pb-2 d-none d-md-block">
@@ -520,7 +520,7 @@ class MapAndCharitiesIn extends Component{
 					  </div>
 					  </div> }
 
-					  {!this.state.currentLocation && this.state.tabSelected=="drop" && <div>
+					  {!this.state.currentLocation && this.state.tabSelected==="drop" && <div>
 					  	<div>
 				          <div>
 				            <div class="pt-4 pr-4 pl-4">
@@ -551,12 +551,12 @@ class MapAndCharitiesIn extends Component{
 					  </div>
 					  </div> }
 
-					  {!this.state.currentLocation && this.state.tabSelected=="requests" && <div>
+					  {!this.state.currentLocation && this.state.tabSelected==="requests" && <div>
 					  	<div className="row">
 				          <div className="col">
-				            <div class="mb-4">
+				            <div class="mb-4 mt-4 ml-4"> {/* Space at top issue when tab switched,resolved. */}
 				              <button onClick={(e) => this.setTabSelected("org")} className="btn btn-dark btn-lg mr-4">Organizations</button>
-				              <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg mr-4">Drops</button>
+				              {/* <button onClick={(e) => this.setTabSelected("drop")} className="btn btn-dark btn-lg mr-4">Drops</button> */} {/* Drop button hid */}
 				              <button onClick={(e) => this.setTabSelected("requests")} className="btn btn-danger btn-lg mr-4">Requests</button>
 				            </div>
 				          </div>

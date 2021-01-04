@@ -27,7 +27,7 @@ class Map extends Component{
 	 * @return {boolean}
 	 */
 	shouldComponentUpdate( nextProps, nextState ){
-		if(this.props.tabSelected != nextProps.tabSelected)
+		if(this.props.tabSelected !== nextProps.tabSelected)
 			return true;
 		if(this.props.dataReady >=3 ) {
 			return false;
@@ -181,7 +181,7 @@ class Map extends Component{
 					           defaultZoom={ this.props.zoom }
 					           defaultCenter={{ lat: -8.2238968, lng: 114.9516869 }}
 					>
-						{this.props.tabSelected=="org" && Object.entries(this.props.locationToAddressMap).map((entry) => 
+						{this.props.tabSelected==="org" && Object.entries(this.props.locationToAddressMap).map((entry) => 
 									<div>
 										<Marker google={this.props.google}
 										        label={this.props.locationToCharityMap[entry[0]].length+""}
@@ -193,7 +193,7 @@ class Map extends Component{
 									</div>
 						)}
 
-						{this.props.tabSelected=="drop" && Object.entries(this.props.locationToDropAddressMap).map((entry) => 
+						{this.props.tabSelected==="drop" && Object.entries(this.props.locationToDropAddressMap).map((entry) => 
 									<div>
 										<Marker google={this.props.google}
 										        label={this.props.locationToDropsMap[entry[0]].length+""}
@@ -205,7 +205,7 @@ class Map extends Component{
 									</div>
 						)}
 
-						{this.props.tabSelected=="requests" && Object.entries(this.props.locationToRequestAddressMap).map((entry) => 
+						{this.props.tabSelected==="requests" && Object.entries(this.props.locationToRequestAddressMap).map((entry) => 
 									<div>
 										<Marker google={this.props.google}
 										        label={this.props.locationToRequestsMap[entry[0]].length+""}
